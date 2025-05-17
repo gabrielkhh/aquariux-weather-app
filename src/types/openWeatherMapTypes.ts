@@ -38,6 +38,10 @@ export type SearchResultWeatherData = {
     weather: Array<Weather>;
 };
 
+export type SearchHistoryWeatherData = SearchResultWeatherData & {
+    timestamp: number;
+}
+
 export type SearchLocationResult = {
     message: string;
     cod: string;

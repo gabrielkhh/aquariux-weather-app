@@ -29,3 +29,11 @@ export const getFiveDayForecast = async (lat: number, lon: number) => {
     }
     return undefined
 }
+
+export const getCurrentWeather = async (lat: number, lon: number) => {
+    const result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`)
+    if (result.status === 200) {
+        return result.data
+    }
+    return undefined
+}

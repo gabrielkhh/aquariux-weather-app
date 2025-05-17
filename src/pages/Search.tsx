@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import useSWR from 'swr';
 import { searchLocation } from '../services/weather';
 import type { SearchLocationResult, SearchResultWeatherData } from '../types/openWeatherMapTypes';
@@ -8,14 +8,18 @@ import { IconTrash } from '@tabler/icons-react';
 const Search = () => {
     const [searchInput, setSearchInput] = useState<string>("");
     const [searchTerm, setSearchTerm] = useState<string>("");
-    const { searchHistory, addToSearchHistory, removeFromSearchHistory } = useGlobalStore();
+    const { searchHistory, addToSearchHistory, removeFromSearchHistory, setCurrentLocation } = useGlobalStore();
 
     const handleSearch = () => {
         setSearchTerm(searchInput);
     };
 
     const handleSearchResultClick = (searchItem: SearchResultWeatherData) => {
-        addToSearchHistory(searchItem)
+        setCurrentLocation({
+            lat: searchItem.coord.lat,
+            lon: searchItem.coord.lon
+        })
+        addToSearchHistory(searchItem);
     }
 
     const { data: searchResults, isLoading: searchResultsIsLoading, error: searchResultsError } = useSWR<SearchLocationResult | undefined>(searchTerm !== "" ? `openweathermap/search/${searchTerm}` : null, async () => {
@@ -23,7 +27,7 @@ const Search = () => {
     });
 
     return (
-        <div className="flex flex-col gap-2 h-screen container mt-3">
+        <div className="flex flex-col gap-2 h-screen">
             <div className="flex gap-2 items-center">
                 <input
                     className="bg-black p-2 rounded-lg flex flex-1"

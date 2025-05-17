@@ -21,3 +21,11 @@ export const searchLocation = async (searchTerm: string) => {
     console.warn(`The search for locations resulted in status code ${result.status}`, result.data)
     return undefined
 }
+
+export const getFiveDayForecast = async (lat: number, lon: number) => {
+    const result = await axios.get<any>(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`)
+    if (result.status === 200) {
+        return result.data
+    }
+    return undefined
+}

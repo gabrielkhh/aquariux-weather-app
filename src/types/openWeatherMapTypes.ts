@@ -38,13 +38,62 @@ export type SearchResultWeatherData = {
     weather: Array<Weather>;
 };
 
-export type SearchHistoryWeatherData = SearchResultWeatherData & {
-    timestamp: number;
-}
-
 export type SearchLocationResult = {
     message: string;
     cod: string;
     count: number;
     list: Array<SearchResultWeatherData>;
 }
+
+export type FiveDayForecastResult = {
+    message: string;
+    cod: string;
+    cnt: number;
+    list: Array<ForecastWeatherData>;
+    city: ForecastCity;
+}
+
+export type ForecastWeatherData = {
+    dt: number;
+    main: {
+        temp: number;
+        feels_like: number;
+        temp_min: number;
+        temp_max: number;
+        pressure: number;
+        sea_level: number;
+        grnd_level: number;
+        humidity: number;
+        temp_kf: number;
+    };
+    weather: Array<Weather>;
+    clouds: {
+        all: number;
+    };
+    wind: {
+        speed: number;
+        deg: number;
+        gust: number;
+    };
+    visibility: number;
+    pop: number;
+    sys: {
+        pod: string;
+    };
+    dt_txt: string;
+}
+
+export type ForecastCity = {
+    id: number;
+    name: string;
+    coord: {
+        lat: number;
+        lon: number;
+    };
+    country: string;
+    population: number;
+    timezone: number;
+    sunrise: number;
+    sunset: number;
+}
+

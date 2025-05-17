@@ -1,11 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { SearchHistoryWeatherData } from '../types/openWeatherMapTypes';
+import type { Coordinates, SearchHistoryWeatherData, Theme, Units } from '../types/store';
+import { DEFAULT_LOCATION_SINGAPORE } from '../constants';
 
 type State = {
-    theme: 'light' | 'dark';
+    theme: Theme;
     searchHistory: SearchHistoryWeatherData[];
-    setTheme: (theme: 'light' | 'dark') => void;
+    currentLocation: Coordinates;
+    preferredUnits: Units;
+    setTheme: (theme: Theme) => void;
+    setCurrentLocation: (location: Coordinates) => void;
     addToSearchHistory: (item: Omit<SearchHistoryWeatherData, 'timestamp'>) => void;
     clearSearchHistory: () => void;
     removeFromSearchHistory: (id: number) => void;
@@ -16,7 +20,13 @@ export const useGlobalStore = create<State>()(
         (set) => ({
             theme: 'light',
             searchHistory: [],
+            currentLocation: {
+                lat: DEFAULT_LOCATION_SINGAPORE.coord.lat,
+                lon: DEFAULT_LOCATION_SINGAPORE.coord.lon
+            },
+            preferredUnits: "metric",
             setTheme: (theme) => set({ theme }),
+            setCurrentLocation: (location) => set({ currentLocation: location }),
             addToSearchHistory: (item) => set((state) => {
                 const existingIndex = state.searchHistory.findIndex(historyItem => historyItem.id === item.id);
                 if (existingIndex !== -1) {

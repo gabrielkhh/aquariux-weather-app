@@ -13,7 +13,7 @@ function App() {
     <div className="relative h-screen">
       <Navbar view={view} setView={setView} />
 
-      <div className="w-screen">
+      <div className="container mx-auto mt-3 px-3">
         {view === 'home' && <Home />}
         {view === 'search' && <Search />}
       </div>

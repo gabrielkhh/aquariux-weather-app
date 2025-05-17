@@ -1,31 +1,55 @@
 import React, { useState } from 'react'
 import useSWR from 'swr';
 import { searchLocation } from '../services/weather';
-import type { SearchLocationResult } from '../types/openWeatherMapTypes';
+import type { SearchLocationResult, SearchResultWeatherData } from '../types/openWeatherMapTypes';
+import { useGlobalStore } from '../store/useStore';
 
 const Search = () => {
     const [searchInput, setSearchInput] = useState<string>("");
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const { searchHistory, addToSearchHistory, removeFromSearchHistory } = useGlobalStore();
 
-    const { data: searchResults, isLoading, error } = useSWR<SearchLocationResult | undefined>(searchTerm !== "" ? `openweathermap/search/${searchTerm}` : null, async () => {
+    const handleSearch = () => {
+        setSearchTerm(searchInput);
+    };
+
+    const handleSearchResultClick = (searchItem: SearchResultWeatherData) => {
+        addToSearchHistory({
+            id: searchItem.id,
+            name: searchItem.name,
+            country: searchItem.sys.country,
+            lat: searchItem.coord.lat,
+            lon: searchItem.coord.lon,
+        })
+    }
+
+    const { data: searchResults, isLoading: searchResultsIsLoading, error: searchResultsError } = useSWR<SearchLocationResult | undefined>(searchTerm !== "" ? `openweathermap/search/${searchTerm}` : null, async () => {
         return await searchLocation(searchTerm)
     });
 
     return (
-        <div className="flex flex-col gap-2 h-screen container">
-            <div className="flex gap-2">
+        <div className="flex flex-col gap-2 h-screen container mt-3">
+            <div className="flex gap-2 items-center">
                 <input
                     className="bg-black p-2 rounded-lg flex flex-1"
                     placeholder="Search a country or city"
                     onChange={(e) => setSearchInput(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            handleSearch();
+                        }
+                    }}
                 />
-                <button className="bg-yellow-500 px-2 rounded-lg" onClick={() => setSearchTerm(searchInput)}>Search</button>
+                <button className="bg-yellow-500 px-2 rounded-lg h-full" onClick={handleSearch}>Search</button>
             </div>
 
             <div className="flex flex-col gap-2">
-                {searchResults && searchResults.list.map((result, index) => {
+                {searchResults && searchResults.list.length > 0 && searchResults.list.map((result, index) => {
                     return (
-                        <div className="flex items-center hover:bg-white/10 cursor-pointer rounded-lg px-2 py-1 ">
+                        <div
+                            className="flex items-center hover:bg-white/10 cursor-pointer rounded-lg px-2 py-1"
+                            onClick={(e) => handleSearchResultClick(result)}
+                        >
                             <div key={index} className="flex flex-col">
                                 <span className="text-lg font-semibold">{result.name}, {result.sys.country}</span>
                                 <span className="text-xs">{result.coord.lat} {result.coord.lon}</span>
@@ -33,6 +57,28 @@ const Search = () => {
                         </div>
                     )
                 })}
+                {searchResults && searchResults.list.length === 0 && (
+                    <span>No results found for "{searchTerm}"</span>
+                )}
+                {searchResultsError && (
+                    <span className="text-red-400">Invalid country or city</span>
+                )}
+            </div>
+
+            <div className="flex flex-col gap-1">
+                Search History
+
+                {searchHistory.length > 0 ? (
+                    searchHistory.map((search) => {
+                        return (
+                            <div>
+                                {search.name}
+                            </div>
+                        )
+                    })
+                ) : (
+                    <span>You have no recent search history</span>
+                )}
             </div>
         </div>
     )

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Coordinates, SearchHistoryWeatherData, Theme, Units } from '../types/store';
+import type { Coordinates, PageView, SearchHistoryWeatherData, Theme, Units } from '../types/store';
 import { DEFAULT_LOCATION_SINGAPORE } from '../constants';
 
 type State = {
@@ -8,7 +8,9 @@ type State = {
     searchHistory: SearchHistoryWeatherData[];
     currentLocation: Coordinates;
     preferredUnits: Units;
+    currentView: PageView;
     setTheme: (theme: Theme) => void;
+    setCurrentView: (view: PageView) => void;
     setCurrentLocation: (location: Coordinates) => void;
     addToSearchHistory: (item: Omit<SearchHistoryWeatherData, 'timestamp'>) => void;
     clearSearchHistory: () => void;
@@ -25,7 +27,9 @@ export const useGlobalStore = create<State>()(
                 lon: DEFAULT_LOCATION_SINGAPORE.coord.lon
             },
             preferredUnits: "metric",
+            currentView: "home",
             setTheme: (theme) => set({ theme }),
+            setCurrentView: (view) => set({ currentView: view }),
             setCurrentLocation: (location) => set({ currentLocation: location }),
             addToSearchHistory: (item) => set((state) => {
                 const existingIndex = state.searchHistory.findIndex(historyItem => historyItem.id === item.id);
@@ -53,6 +57,13 @@ export const useGlobalStore = create<State>()(
                 searchHistory: state.searchHistory.filter(item => item.id !== id)
             })),
         }),
-        { name: 'aquariux-weather-app-data' } // key in localStorage
+        {
+            name: 'aquariux-weather-app-data', // key in localStorage
+            partialize: (state) => ({
+                theme: state.theme,
+                searchHistory: state.searchHistory,
+                preferredUnits: state.preferredUnits
+            })
+        }
     )
 );

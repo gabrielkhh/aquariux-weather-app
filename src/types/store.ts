@@ -13,3 +13,5 @@ export type Theme = "light" | "dark"
 
 export type Units = "metric" | "imperial" | "standard"
 
+export type PageView = "home" | "search";
+

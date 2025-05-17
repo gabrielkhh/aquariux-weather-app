@@ -8,7 +8,7 @@ import { IconTrash } from '@tabler/icons-react';
 const Search = () => {
     const [searchInput, setSearchInput] = useState<string>("");
     const [searchTerm, setSearchTerm] = useState<string>("");
-    const { searchHistory, addToSearchHistory, removeFromSearchHistory, setCurrentLocation } = useGlobalStore();
+    const { searchHistory, addToSearchHistory, removeFromSearchHistory, setCurrentLocation, setCurrentView } = useGlobalStore();
 
     const handleSearch = () => {
         setSearchTerm(searchInput);
@@ -20,6 +20,7 @@ const Search = () => {
             lon: searchItem.coord.lon
         })
         addToSearchHistory(searchItem);
+        setCurrentView("home");
     }
 
     const { data: searchResults, isLoading: searchResultsIsLoading, error: searchResultsError } = useSWR<SearchLocationResult | undefined>(searchTerm !== "" ? `openweathermap/search/${searchTerm}` : null, async () => {

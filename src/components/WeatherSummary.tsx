@@ -3,6 +3,7 @@ import type { CurrentWeatherData } from '../types/openWeatherMapTypes'
 import { getCurrentWeather } from '../services/weather';
 import { useGlobalStore } from '../store/useStore';
 import dayjs from "dayjs";
+import { metresToKm } from '../utils';
 
 const WeatherSummary = () => {
     const { currentLocation } = useGlobalStore();
@@ -10,6 +11,8 @@ const WeatherSummary = () => {
     const { data: currentWeatherData, isLoading: currentWeatherDataIsLoading, error: currentWeatherError } = useSWR<CurrentWeatherData | undefined>(currentLocation ? `openweathermap/forecast/${currentLocation.lat}/${currentLocation.lon}` : null, async () => {
         return await getCurrentWeather(currentLocation.lat, currentLocation.lon)
     })
+
+    console.log("c", currentWeatherData)
 
     return (
         <div className="bg-white/20 p-2 md:p-3 rounded-lg flex flex-col gap-1">
@@ -29,11 +32,11 @@ const WeatherSummary = () => {
                 </div>
                 <div className="flex flex-col items-center bg-amber-400/10">
                     <span>Winds</span>
-                    <span>1.54m/s</span>
+                    <span>{currentWeatherData?.wind.speed}m/s</span>
                 </div>
                 <div className="flex flex-col items-center bg-amber-400/10">
                     <span>Visibility</span>
-                    <span>99km</span>
+                    <span>{metresToKm(currentWeatherData?.visibility ?? 0)} KM</span>
                 </div>
             </div>
 

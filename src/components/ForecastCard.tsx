@@ -20,7 +20,7 @@ const ForecastCard = () => {
                                     <span className="w-18">{dayjs.unix(data.dt).utcOffset(data.offsetMinutes).format("h:mm A")}</span>
                                     <div className="flex items-center gap-1 flex-1 justify-left">
                                         <div className="relative">
-                                            <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,_rgba(0,0,0,0.4)_0%,_rgba(0,0,0,0)_40%)] blur-lg" />
+                                            <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,_rgba(0,0,0,0.4)_0%,_rgba(0,0,0,0)_50%)] blur-lg" />
 
                                             <WeatherIcon icon={data.weather[0].icon} className="rounded-full relative" />
                                         </div>

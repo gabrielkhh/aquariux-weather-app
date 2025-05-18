@@ -48,7 +48,7 @@ const WeatherSummary = () => {
 
                     <div className="flex flex-col items-center p-2">
                         <span className="text-gray-500 font-medium text-sm">Visibility</span>
-                        <span className="font-bold">{metresToKm(currentWeatherData?.visibility ?? 0)} {preferredUnits === "metric" ? "KM" : "miles"}</span>
+                        <span className="font-bold">{metresToKm(currentWeatherData?.visibility ?? 0)} KM</span>
                     </div>
                 </div>
             </div>

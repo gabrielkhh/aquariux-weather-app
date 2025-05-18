@@ -6,8 +6,8 @@ import type { Units } from "../types/store";
 
 dayjs.extend(utc);
 
-export const searchLocation = async (searchTerm: string) => {
-    const result = await axios.get<SearchLocationResult>(`https://api.openweathermap.org/data/2.5/find?q=${searchTerm}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`);
+export const searchLocation = async (searchTerm: string, preferredUnits: Units) => {
+    const result = await axios.get<SearchLocationResult>(`https://api.openweathermap.org/data/2.5/find?q=${searchTerm}&appid=5796abbde9106b7da4febfae8c44c232&units=${preferredUnits}`);
     if (result.status === 200) {
         // Dedupe identical results (Not sure why the API returns duplicates sometimes e.g. searching "KUL")
         if (result.data && Array.isArray(result.data.list)) {

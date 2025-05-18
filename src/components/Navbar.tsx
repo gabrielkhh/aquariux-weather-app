@@ -21,7 +21,7 @@ const Navbar = () => {
                         Search
                     </button>
 
-                    <div className="inline-flex bg-gray-200 border border-gray-300 rounded-lg p-1 text-sm font-medium relative">
+                    <div className="bg-gray-200 border border-gray-300 rounded-lg p-1 text-sm font-medium relative hidden sm:inline-flex">
                         <button
                             id="metricBtn"
                             className={`px-3 py-1 rounded-lg transition-colors duration-200 ${preferredUnits === "metric" ? ("bg-white text-gray-900 shadow") : ("text-gray-600")}`}

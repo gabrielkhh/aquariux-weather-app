@@ -23,7 +23,7 @@ const WeatherSummary = () => {
     return (
         <div className="bg-white p-3 md:p-5 rounded-xl flex flex-col gap-1 shadow-xl">
             <span className="text-2xl font-bold">{dayjs().utcOffset((currentWeatherData?.timezone !== undefined ? currentWeatherData?.timezone : 0) / 60).format("DD MMM YYYY")}</span>
-            <div className="flex xl:flex-col gap-5 xl:gap-3">
+            <div className="flex flex-col md:flex-row xl:flex-col gap-5 xl:gap-3">
                 <div className="flex items-center">
                     <WeatherIcon icon={currentWeatherData?.weather[0].icon} size={4} />
                     <div className="flex flex-col">
@@ -32,7 +32,7 @@ const WeatherSummary = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col xl:flex-row items-center justify-around gap-3">
+                <div className="flex flex-row md:flex-col md:flex-1 xl:flex-row items-center justify-around gap-3">
                     <div className="flex flex-col items-center p-2">
                         <span className="text-gray-500 font-medium text-sm">Humidity</span>
                         <span className="font-bold">{currentWeatherData?.main.humidity}%</span>

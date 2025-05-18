@@ -6,6 +6,7 @@
 cp .env.example .env
 # Then fill in .env with the proper keys
 ```
+> 🚨 If the express server does not run at port ``3001`` on your machine, please make the appropriate change to ``VITE_SERVER_PORT``.
 
 Next, install all the dependencies:
 

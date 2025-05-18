@@ -6,9 +6,11 @@ import type { Units } from "../types/store";
 
 dayjs.extend(utc);
 
+const SERVER_PORT = import.meta.env.VITE_SERVER_PORT;
+
 export const searchLocation = async (searchTerm: string, preferredUnits: Units) => {
     // This request is proxied via an Express server at /server
-    const result = await axios.get<SearchLocationResult>(`http://localhost:3001/api/search?searchTerm=${searchTerm}&units=${preferredUnits}`);
+    const result = await axios.get<SearchLocationResult>(`http://localhost:${SERVER_PORT}/api/search?searchTerm=${searchTerm}&units=${preferredUnits}`);
     if (result.status === 200) {
         // Dedupe identical results (Not sure why the API returns duplicates sometimes e.g. searching "KUL")
         if (result.data && Array.isArray(result.data.list)) {
@@ -36,7 +38,7 @@ export const getFiveDayForecast = async (lat: number, lon: number, preferredUnit
     }
 
     // This request is proxied via an Express server at /server
-    const result = await axios.get<FiveDayForecastResult>(`http://localhost:3001/api/forecast?lat=${lat}&lon=${lon}&units=${preferredUnits}`)
+    const result = await axios.get<FiveDayForecastResult>(`http://localhost:${SERVER_PORT}/api/forecast?lat=${lat}&lon=${lon}&units=${preferredUnits}`)
     if (result.status === 200) {
         if (result.data.list.length > 0) {
             // Group the forecast by day
@@ -68,7 +70,7 @@ export const getFiveDayForecast = async (lat: number, lon: number, preferredUnit
 
 export const getCurrentWeather = async (lat: number, lon: number, preferredUnits: Units) => {
     // This request is proxied via an Express server at /server
-    const result = await axios.get<CurrentWeatherData>(`http://localhost:3001/api/weather?lat=${lat}&lon=${lon}&units=${preferredUnits}`)
+    const result = await axios.get<CurrentWeatherData>(`http://localhost:${SERVER_PORT}/api/weather?lat=${lat}&lon=${lon}&units=${preferredUnits}`)
     if (result.status === 200) {
         return result.data
     }

@@ -1,6 +1,9 @@
 ## Getting Started
 
-First, install all the dependencies:
+> 🚨 First, make sure that you have obtained the necessary API keys and loaded them into an ``.env`` file.
+> Refer to ``.env.example`` for all required variables
+
+Next, install all the dependencies:
 
 ```bash
 pnpm install

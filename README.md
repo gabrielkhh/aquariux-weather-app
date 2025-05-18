@@ -18,7 +18,7 @@ pnpm run dev
 Or, build and run the production server:
 
 ```bash
-pnpm build && pnpm preview
+pnpm build && pnpm start
 ```
 
 ## For dev build

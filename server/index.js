@@ -6,8 +6,6 @@ import axios from 'axios';
 const app = express();
 const PORT = 3001;
 
-console.log(process.env.OPEN_WEATHER_API_KEY)
-
 app.use(cors());
 app.use(express.json());
 

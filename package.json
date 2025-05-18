@@ -8,8 +8,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "dev:client": "vite",
-    "dev:server": "node server/index.js",
-    "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:server\""
+    "proxy-server": "node server/index.js",
+    "dev": "concurrently \"pnpm dev:client\" \"pnpm proxy-server\"",
+    "start": "concurrently \"pnpm preview\" \"pnpm proxy-server\""
   },
   "dependencies": {
     "@tabler/icons-react": "^3.31.0",

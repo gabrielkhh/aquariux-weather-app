@@ -16,7 +16,7 @@ const ForecastCard = () => {
                     5 day forecast is loading
                 </div>
             )}
-            {forecastError && (
+            {!forecast && forecastError && (
                 <div className="flex my-30 gap-2 justify-center">
                     <div className="flex flex-col gap-2">
                         <div className="font-medium text-neutral-400 flex items-center gap-2">
@@ -38,7 +38,7 @@ const ForecastCard = () => {
                     <div className="flex flex-col xl:flex-row xl:flex-wrap gap-2 bg-white/10">
                         {forecast?.grouped && Object.entries(forecast?.grouped).map(([date, forecastData]) => (
                             <div className="flex flex-col gap-1 bg-neutral-100 p-3 rounded-lg xl:flex-grow-1">
-                                <span className="font-bold text-neutral-500 text-lg">{date}</span>
+                                <span className="font-bold text-neutral-500 text-lg">{dayjs().utcOffset(forecastData?.[0].offsetMinutes !== undefined ? forecastData?.[0].offsetMinutes : 0).format("DD MMM") === date ? "Today" : date}</span>
                                 {forecastData.map((data) => {
                                     return (
                                         <div className="flex items-center rounded-lg justify-between gap-2 font-medium">

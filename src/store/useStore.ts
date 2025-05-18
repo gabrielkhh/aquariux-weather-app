@@ -1,18 +1,22 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Coordinates, PageView, SearchHistoryWeatherData, Theme, Units } from '../types/store';
+import type { Coordinates, LocationCountryInfo, LocationInformation, PageView, SearchHistoryWeatherData, Theme, Units } from '../types/store';
 import { DEFAULT_LOCATION_SINGAPORE } from '../constants';
 
 type State = {
     theme: Theme;
     searchHistory: SearchHistoryWeatherData[];
-    currentLocation: Coordinates;
+    currentLocation: LocationInformation;
     preferredUnits: Units;
     currentView: PageView;
+    autoLocateIsSet: boolean;
     setTheme: (theme: Theme) => void;
     setCurrentView: (view: PageView) => void;
-    setCurrentLocation: (location: Coordinates) => void;
+    setCurrentLocation: (location: LocationInformation) => void;
+    setCurrentLocationCountryInfo: (countryInfo: LocationCountryInfo) => void;
+    setCurrentLocationCoordinates: (coordinates: Coordinates) => void;
     setCurrentLocationTimezoneOffset: (timezoneOffset: number) => void;
+    setAutoLocateIsSet: (flag: boolean) => void;
     addToSearchHistory: (item: Omit<SearchHistoryWeatherData, 'timestamp'>) => void;
     clearSearchHistory: () => void;
     removeFromSearchHistory: (id: number) => void;
@@ -30,16 +34,40 @@ export const useGlobalStore = create<State>()(
                 country: DEFAULT_LOCATION_SINGAPORE.sys.country,
                 timezoneOffset: 28800
             },
+            autoLocateIsSet: false,
             preferredUnits: "metric",
             currentView: "home",
             setTheme: (theme) => set({ theme }),
             setCurrentView: (view) => set({ currentView: view }),
             setCurrentLocation: (location) => set({ currentLocation: location }),
+            setCurrentLocationCountryInfo: (countryInfo) => set((state) => {
+                return {
+                    currentLocation: {
+                        ...state.currentLocation,
+                        name: countryInfo.name,
+                        country: countryInfo.country
+                    }
+                }
+            }),
+            setCurrentLocationCoordinates: (coordinates) => set((state) => {
+                return {
+                    currentLocation: {
+                        ...state.currentLocation,
+                        lat: coordinates.lat,
+                        lon: coordinates.lon
+                    }
+                }
+            }),
             setCurrentLocationTimezoneOffset: (timezoneOffset) => set((state) => {
                 return {
-                    ...state,
-                    timezoneOffset
+                    currentLocation: {
+                        ...state.currentLocation,
+                        timezoneOffset
+                    }
                 }
+            }),
+            setAutoLocateIsSet: (flag) => set({
+                autoLocateIsSet: flag
             }),
             addToSearchHistory: (item) => set((state) => {
                 const existingIndex = state.searchHistory.findIndex(historyItem => historyItem.id === item.id);

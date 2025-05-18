@@ -8,7 +8,7 @@ import WeatherIcon from './WeatherIcon';
 import { useEffect } from 'react';
 
 const WeatherSummary = () => {
-    const { currentLocation, setCurrentLocationTimezoneOffset } = useGlobalStore();
+    const { currentLocation, setCurrentLocationCountryInfo } = useGlobalStore();
 
     const { data: currentWeatherData, isLoading: currentWeatherDataIsLoading, error: currentWeatherError } = useSWR<CurrentWeatherData | undefined>(currentLocation ? `openweathermap/currentWeather/${currentLocation.lat}/${currentLocation.lon}` : null, async () => {
         return await getCurrentWeather(currentLocation.lat, currentLocation.lon)
@@ -16,14 +16,15 @@ const WeatherSummary = () => {
 
     useEffect(() => {
         if (currentWeatherData) {
-            setCurrentLocationTimezoneOffset(currentWeatherData.timezone)
+            setCurrentLocationCountryInfo({
+                name: currentWeatherData.name,
+                country: currentWeatherData.sys.country
+            })
         }
     }, [currentWeatherData])
 
-    console.log("c", currentWeatherData)
-
     return (
-        <div className="bg-white/20 p-2 md:p-3 rounded-lg flex flex-col gap-1">
+        <div className="bg-white/20 p-3 md:p-5 rounded-lg flex flex-col gap-1 flex-1">
             <span className="text-2xl font-bold">{dayjs().utcOffset((currentWeatherData?.timezone !== undefined ? currentWeatherData?.timezone : 0) / 60).format("DD MMM YYYY")}</span>
             <div className="flex items-center">
                 <WeatherIcon icon={currentWeatherData?.weather[0].icon} size={4} />

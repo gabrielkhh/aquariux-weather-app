@@ -4,13 +4,23 @@ export type SearchHistoryWeatherData = SearchResultWeatherData & {
     timestamp: number;
 }
 
-export type Coordinates = {
+export type LocationInformation = {
     lon: number;
     lat: number;
     name: string;
     country: string;
     timezoneOffset: number;
 };
+
+export type Coordinates = {
+    lon: number;
+    lat: number;
+}
+
+export type LocationCountryInfo = {
+    name: string;
+    country: string;
+}
 
 export type Theme = "light" | "dark"
 

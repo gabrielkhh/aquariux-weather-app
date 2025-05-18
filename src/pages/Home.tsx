@@ -1,19 +1,20 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useGlobalStore } from '../store/useStore';
-import { getFiveDayForecast } from '../services/weather';
-import useSWR from 'swr';
-import type { FiveDayForecastProcessedResult } from '../types/openWeatherMapTypes';
 import WeatherSummary from '../components/WeatherSummary';
-import WeatherIcon from '../components/WeatherIcon';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import useGetFiveDayForecast from '../hooks/useGetFiveDayForecast';
 import ForecastCard from '../components/ForecastCard';
+import { useSWRConfig } from 'swr';
+import { IconReload } from '@tabler/icons-react';
+import useGetCurrentWeather from '../hooks/useGetCurrentWeather';
+import useGetFiveDayForecast from '../hooks/useGetFiveDayForecast';
 
 dayjs.extend(utc);
 
 const Home = () => {
-    const { currentLocation, setCurrentLocationCoordinates, autoLocateIsSet, setAutoLocateIsSet } = useGlobalStore();
+    const { setCurrentLocationCoordinates, autoLocateIsSet, setAutoLocateIsSet } = useGlobalStore();
+    const { mutate: mutateCurrentWeather, isValidating: currentWeatherIsValidating } = useGetCurrentWeather()
+    const { mutate: mutateFiveDayForecast, isValidating: fiveDayForecastIsValidating } = useGetFiveDayForecast()
 
     useEffect(() => {
         if (!navigator.geolocation) {
@@ -40,9 +41,21 @@ const Home = () => {
     }, [autoLocateIsSet]);
 
     return (
-        <div className="flex flex-col xl:flex-row xl:items-start w-full min-h-screen gap-3">
-            <WeatherSummary />
-            <ForecastCard />
+        <div className="w-full min-h-screen flex-col">
+            <button
+                className="flex mb-2 items-center gap-1 justify-self-end p-2 text-sm font-medium hover:bg-neutral-300 rounded-lg transition-colors duration-200 cursor-pointer"
+                onClick={() => {
+                    mutateCurrentWeather()
+                    mutateFiveDayForecast()
+                }}
+            >
+                <IconReload size={16} stroke={2.5} className={fiveDayForecastIsValidating || currentWeatherIsValidating ? `animate-spin` : ""} />
+                Refresh Data
+            </button>
+            <div className="flex flex-col xl:flex-row xl:items-start gap-3">
+                <WeatherSummary />
+                <ForecastCard />
+            </div>
         </div>
     )
 }

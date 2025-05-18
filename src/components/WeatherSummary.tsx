@@ -26,8 +26,8 @@ const WeatherSummary = () => {
             <div className="flex flex-col md:flex-row xl:flex-col gap-5 xl:gap-3">
                 <div className="flex items-center">
                     <WeatherIcon icon={currentWeatherData?.weather[0].icon} size={4} />
-                    <div className="flex flex-col">
-                        <span className="text-4xl font-bold">{currentWeatherData?.main.temp}{preferredUnits === "metric" ? "°C" : "°F"}</span>
+                    <div className="flex flex-col flex-grow-1">
+                        <span className="text-3xl sm:text-4xl font-bold">{currentWeatherData?.main.temp}{preferredUnits === "metric" ? "°C" : "°F"}</span>
                         <span className="text-lg font-medium">{currentWeatherData?.weather[0].description}</span>
                     </div>
                 </div>

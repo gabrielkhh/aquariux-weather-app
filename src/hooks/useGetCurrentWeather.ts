@@ -6,7 +6,7 @@ import type { CurrentWeatherData } from '../types/openWeatherMapTypes';
 const useGetCurrentWeather = () => {
   const { currentLocation, preferredUnits } = useGlobalStore();
 
-  const response = useSWR<CurrentWeatherData | undefined>(currentLocation ? `openweathermap/currentWeather/${preferredUnits}/${currentLocation.lat}/${currentLocation.lon}` : null, async () => {
+  const response = useSWR<CurrentWeatherData | undefined>(currentLocation ? `openweathermap/${preferredUnits}/${currentLocation.lat}/${currentLocation.lon}/currentWeather` : null, async () => {
       return await getCurrentWeather(currentLocation.lat, currentLocation.lon, preferredUnits)
   })
 

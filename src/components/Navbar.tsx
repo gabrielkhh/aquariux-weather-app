@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { IconMapPin, IconSearch } from '@tabler/icons-react';
 import { useGlobalStore } from '../store/useStore';
 
@@ -10,7 +9,7 @@ const Navbar = () => {
             <div className="flex items-center w-full justify-between">
                 <button
                     onClick={() => setCurrentView("home")}
-                    className="flex items-center gap-1 font-semibold text-lg hover:bg-neutral-300 dark:hover:bg-white/10 duration-150 transition-colors p-2 rounded-lg cursor-pointer">
+                    className="flex items-center gap-1 font-semibold text-md sm:text-lg hover:bg-neutral-300 dark:hover:bg-white/10 duration-150 transition-colors p-2 rounded-lg cursor-pointer">
                     <IconMapPin />
                     <span>{currentLocation.name}, {currentLocation.country}</span>
                 </button>

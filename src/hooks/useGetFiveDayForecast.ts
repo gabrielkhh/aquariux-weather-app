@@ -6,7 +6,7 @@ import { getFiveDayForecast } from '../services/weather';
 const useGetFiveDayForecast = () => {
     const { currentLocation, preferredUnits } = useGlobalStore();
 
-    const response = useSWR<FiveDayForecastProcessedResult | undefined>(currentLocation ? `openweathermap/forecast/${preferredUnits}/${currentLocation.lat}/${currentLocation.lon}` : null, async () => {
+    const response = useSWR<FiveDayForecastProcessedResult | undefined>(currentLocation ? `openweathermap/${preferredUnits}/${currentLocation.lat}/${currentLocation.lon}/forecast` : null, async () => {
         return await getFiveDayForecast(currentLocation.lat, currentLocation.lon, preferredUnits)
     })
 

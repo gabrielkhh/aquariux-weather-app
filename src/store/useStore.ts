@@ -16,6 +16,7 @@ type State = {
     setCurrentLocationCountryInfo: (countryInfo: LocationCountryInfo) => void;
     setCurrentLocationCoordinates: (coordinates: Coordinates) => void;
     setCurrentLocationTimezoneOffset: (timezoneOffset: number) => void;
+    setPreferredUnits: (unit: Units) => void;
     setAutoLocateIsSet: (flag: boolean) => void;
     addToSearchHistory: (item: Omit<SearchHistoryWeatherData, 'timestamp'>) => void;
     clearSearchHistory: () => void;
@@ -68,6 +69,9 @@ export const useGlobalStore = create<State>()(
             }),
             setAutoLocateIsSet: (flag) => set({
                 autoLocateIsSet: flag
+            }),
+            setPreferredUnits: (unit) => set({
+                preferredUnits: unit
             }),
             addToSearchHistory: (item) => set((state) => {
                 const existingIndex = state.searchHistory.findIndex(historyItem => historyItem.id === item.id);

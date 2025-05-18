@@ -3,7 +3,7 @@ import { IconMapPin, IconSearch } from '@tabler/icons-react';
 import { useGlobalStore } from '../store/useStore';
 
 const Navbar = () => {
-    const { currentView, setCurrentView, currentLocation, preferredUnits } = useGlobalStore();
+    const { currentView, setCurrentView, currentLocation, preferredUnits, setPreferredUnits } = useGlobalStore();
 
     useEffect(() => {
         console.log("curre", currentLocation.lat, currentLocation.lon, currentLocation)
@@ -28,18 +28,18 @@ const Navbar = () => {
                     <div className="absolute ml-1 w-5 h-5 bg-white dark:bg-gray-200 rounded-full shadow transform peer-checked:translate-x-5 transition-all duration-300"></div>
                 </label>
 
-                <div className="inline-flex bg-gray-200 rounded-lg p-1 text-sm font-medium">
+                <div className="inline-flex bg-gray-300 rounded-lg p-1 text-sm font-medium relative">
                     <button
                         id="metricBtn"
-                        className={`px-3 py-1 rounded-lg ${preferredUnits === "metric" ? ("bg-white text-gray-900 shadow") : ("text-gray-600")}`}
-                        // onclick="toggleUnits('metric')"
+                        className={`px-3 py-1 rounded-lg transition-colors duration-200 ${preferredUnits === "metric" ? ("bg-white text-gray-900 shadow") : ("text-gray-600")}`}
+                        onClick={() => setPreferredUnits("metric")}
                     >
                         Metric: °C, m/s
                     </button>
                     <button
                         id="imperialBtn"
-                        className={`px-3 py-1 rounded-lg ${preferredUnits === "imperial" ? ("bg-white text-gray-900 shadow") : ("text-gray-600")}`}
-                        // onClick="toggleUnits('imperial')"
+                        className={`px-3 py-1 rounded-lg transition-colors duration-200 ${preferredUnits === "imperial" ? ("bg-white text-gray-900 shadow") : ("text-gray-600")}`}
+                        onClick={() => setPreferredUnits("imperial")}
                     >
                         Imperial: °F, mph
                     </button>

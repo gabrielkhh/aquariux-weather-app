@@ -6,7 +6,7 @@ const Navbar = () => {
     const { setCurrentView, currentLocation, preferredUnits, setPreferredUnits } = useGlobalStore();
 
     return (
-        <div className="bg-white/10 backdrop-blur-2xl p-3 sticky top-0 w-full">
+        <div className="bg-white/10 backdrop-blur-2xl p-3 sticky top-0 w-full z-10">
             <div className="flex items-center w-full justify-between">
                 <button
                     onClick={() => setCurrentView("home")}

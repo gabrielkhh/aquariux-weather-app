@@ -17,7 +17,10 @@ const Search = () => {
     const handleSearchResultClick = (searchItem: SearchResultWeatherData) => {
         setCurrentLocation({
             lat: searchItem.coord.lat,
-            lon: searchItem.coord.lon
+            lon: searchItem.coord.lon,
+            name: searchItem.name,
+            country: searchItem.sys.country,
+            timezoneOffset: 0
         })
         addToSearchHistory(searchItem);
         setCurrentView("home");

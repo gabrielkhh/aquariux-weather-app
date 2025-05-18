@@ -12,6 +12,7 @@ type State = {
     setTheme: (theme: Theme) => void;
     setCurrentView: (view: PageView) => void;
     setCurrentLocation: (location: Coordinates) => void;
+    setCurrentLocationTimezoneOffset: (timezoneOffset: number) => void;
     addToSearchHistory: (item: Omit<SearchHistoryWeatherData, 'timestamp'>) => void;
     clearSearchHistory: () => void;
     removeFromSearchHistory: (id: number) => void;
@@ -24,13 +25,22 @@ export const useGlobalStore = create<State>()(
             searchHistory: [],
             currentLocation: {
                 lat: DEFAULT_LOCATION_SINGAPORE.coord.lat,
-                lon: DEFAULT_LOCATION_SINGAPORE.coord.lon
+                lon: DEFAULT_LOCATION_SINGAPORE.coord.lon,
+                name: DEFAULT_LOCATION_SINGAPORE.name,
+                country: DEFAULT_LOCATION_SINGAPORE.sys.country,
+                timezoneOffset: 28800
             },
             preferredUnits: "metric",
             currentView: "home",
             setTheme: (theme) => set({ theme }),
             setCurrentView: (view) => set({ currentView: view }),
             setCurrentLocation: (location) => set({ currentLocation: location }),
+            setCurrentLocationTimezoneOffset: (timezoneOffset) => set((state) => {
+                return {
+                    ...state,
+                    timezoneOffset
+                }
+            }),
             addToSearchHistory: (item) => set((state) => {
                 const existingIndex = state.searchHistory.findIndex(historyItem => historyItem.id === item.id);
                 if (existingIndex !== -1) {

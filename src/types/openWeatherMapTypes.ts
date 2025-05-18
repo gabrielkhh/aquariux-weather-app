@@ -53,6 +53,20 @@ export type FiveDayForecastResult = {
     city: ForecastCity;
 }
 
+export type GroupedForecast = {
+    [key: string]: Array<ForecastWeatherData & { offsetMinutes: number }>;
+}
+
+export type FiveDayForecastProcessedResult = {
+    message: string;
+    cod: string;
+    cnt: number;
+    list: Array<ForecastWeatherData>;
+    city: ForecastCity;
+    grouped: GroupedForecast;
+}
+
+
 export type ForecastWeatherData = {
     dt: number;
     main: {

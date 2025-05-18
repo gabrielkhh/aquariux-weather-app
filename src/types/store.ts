@@ -7,6 +7,9 @@ export type SearchHistoryWeatherData = SearchResultWeatherData & {
 export type Coordinates = {
     lon: number;
     lat: number;
+    name: string;
+    country: string;
+    timezoneOffset: number;
 };
 
 export type Theme = "light" | "dark"

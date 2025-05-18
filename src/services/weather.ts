@@ -1,5 +1,9 @@
 import axios from "axios";
-import type { SearchLocationResult } from "../types/openWeatherMapTypes";
+import type { CurrentWeatherData, FiveDayForecastResult, SearchLocationResult } from "../types/openWeatherMapTypes";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 export const searchLocation = async (searchTerm: string) => {
     const result = await axios.get<SearchLocationResult>(`https://api.openweathermap.org/data/2.5/find?q=${searchTerm}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`);
@@ -23,15 +27,44 @@ export const searchLocation = async (searchTerm: string) => {
 }
 
 export const getFiveDayForecast = async (lat: number, lon: number) => {
-    const result = await axios.get<any>(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`)
+    const currentWeatherResult = await getCurrentWeather(lat, lon)
+    let timezoneOffsetInMinutes = 0;
+    if (currentWeatherResult) {
+        timezoneOffsetInMinutes = currentWeatherResult.timezone / 60;
+    }
+
+    const result = await axios.get<FiveDayForecastResult>(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`)
     if (result.status === 200) {
-        return result.data
+        if (result.data.list.length > 0) {
+            // Group the forecast by day
+            const groupedForecast = result.data.list.reduce((acc: any, item) => {
+                const date = dayjs.unix(item.dt).utcOffset(timezoneOffsetInMinutes).format('DD MMM'); // group by day
+                if (!acc[date]) {
+                    acc[date] = [];
+                }
+                acc[date].push({
+                    ...item,
+                    offsetMinutes: timezoneOffsetInMinutes
+                });
+                return acc;
+            }, {});
+
+            return {
+                ...result.data,
+                grouped: groupedForecast
+            }
+        } else {
+            return {
+                ...result.data,
+                grouped: {}
+            }
+        }
     }
     return undefined
 }
 
 export const getCurrentWeather = async (lat: number, lon: number) => {
-    const result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`)
+    const result = await axios.get<CurrentWeatherData>(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`)
     if (result.status === 200) {
         return result.data
     }

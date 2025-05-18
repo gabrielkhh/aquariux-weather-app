@@ -42,7 +42,7 @@ const ForecastCard = () => {
                                 {forecastData.map((data) => {
                                     return (
                                         <div className="flex items-center rounded-lg justify-between gap-2 font-medium">
-                                            <span className="w-18">{dayjs.unix(data.dt).utcOffset(data.offsetMinutes).format("h:mm A")}</span>
+                                            <span className="w-18">{dayjs.unix(data.dt).utcOffset(data.offsetMinutes).format("HH:mm")}</span>
                                             <div className="flex items-center gap-1 flex-1 justify-left">
                                                 <div className="relative">
                                                     <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,_rgba(0,0,0,0.4)_0%,_rgba(0,0,0,0)_50%)] blur-lg" />

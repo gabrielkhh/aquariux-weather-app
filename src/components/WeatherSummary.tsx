@@ -24,7 +24,7 @@ const WeatherSummary = () => {
 
     return (
         <div className="bg-white/20 p-2 md:p-3 rounded-lg flex flex-col gap-1">
-            <span className="text-2xl font-bold">{dayjs().format("DD MMM YYYY")}</span>
+            <span className="text-2xl font-bold">{dayjs().utcOffset((currentWeatherData?.timezone !== undefined ? currentWeatherData?.timezone : 0) / 60).format("DD MMM YYYY")}</span>
             <div className="flex items-center">
                 <WeatherIcon icon={currentWeatherData?.weather[0].icon} size={4} />
                 <div className="flex flex-col">

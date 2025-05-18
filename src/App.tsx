@@ -8,7 +8,7 @@ function App() {
   const { currentView } = useGlobalStore();
 
   return (
-    <div className="relative h-screen">
+    <div className="relative min-h-screen">
       <Navbar />
 
       <div className="container mx-auto mt-3 px-3">

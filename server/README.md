@@ -1,0 +1,2 @@
+## Important Information
+This proxy express server was created to communicate with openweathermap.org purely to obfuscate the API key from appearing in the client network requests as openweathermap uses URL params to check for API keys.

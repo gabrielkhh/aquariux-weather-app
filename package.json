@@ -4,15 +4,18 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:client": "vite",
+    "dev:server": "node server/index.js",
+    "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:server\""
   },
   "dependencies": {
     "@tabler/icons-react": "^3.31.0",
     "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.9.0",
+    "concurrently": "^9.1.2",
     "dayjs": "^1.11.13",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

@@ -7,7 +7,7 @@ import type { Units } from "../types/store";
 dayjs.extend(utc);
 
 export const searchLocation = async (searchTerm: string, preferredUnits: Units) => {
-    const result = await axios.get<SearchLocationResult>(`https://api.openweathermap.org/data/2.5/find?q=${searchTerm}&appid=5796abbde9106b7da4febfae8c44c232&units=${preferredUnits}`);
+    const result = await axios.get<SearchLocationResult>(`http://localhost:3001/api/search?searchTerm=${searchTerm}&units=${preferredUnits}`);
     if (result.status === 200) {
         // Dedupe identical results (Not sure why the API returns duplicates sometimes e.g. searching "KUL")
         if (result.data && Array.isArray(result.data.list)) {
@@ -34,7 +34,7 @@ export const getFiveDayForecast = async (lat: number, lon: number, preferredUnit
         timezoneOffsetInMinutes = currentWeatherResult.timezone / 60;
     }
 
-    const result = await axios.get<FiveDayForecastResult>(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=${preferredUnits}`)
+    const result = await axios.get<FiveDayForecastResult>(`http://localhost:3001/api/forecast?lat=${lat}&lon=${lon}&units=${preferredUnits}`)
     if (result.status === 200) {
         if (result.data.list.length > 0) {
             // Group the forecast by day
@@ -65,7 +65,7 @@ export const getFiveDayForecast = async (lat: number, lon: number, preferredUnit
 }
 
 export const getCurrentWeather = async (lat: number, lon: number, preferredUnits: Units) => {
-    const result = await axios.get<CurrentWeatherData>(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=${preferredUnits}`)
+    const result = await axios.get<CurrentWeatherData>(`http://localhost:3001/api/weather?lat=${lat}&lon=${lon}&units=${preferredUnits}`)
     if (result.status === 200) {
         return result.data
     }

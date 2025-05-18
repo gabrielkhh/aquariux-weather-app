@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useGlobalStore } from '../store/useStore';
 import WeatherSummary from '../components/WeatherSummary';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import ForecastCard from '../components/ForecastCard';
-import { useSWRConfig } from 'swr';
 import { IconReload } from '@tabler/icons-react';
 import useGetCurrentWeather from '../hooks/useGetCurrentWeather';
 import useGetFiveDayForecast from '../hooks/useGetFiveDayForecast';
@@ -17,6 +16,7 @@ const Home = () => {
     const { mutate: mutateFiveDayForecast, isValidating: fiveDayForecastIsValidating } = useGetFiveDayForecast()
 
     useEffect(() => {
+        // useEffect to detect User's location and load weather data for the location
         if (!navigator.geolocation) {
             console.error("Client browser does not support geolocation")
             return;

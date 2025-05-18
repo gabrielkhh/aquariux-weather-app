@@ -8,7 +8,6 @@ import { IconArrowNarrowUp, IconExclamationCircle, IconLoader2 } from '@tabler/i
 
 const WeatherSummary = () => {
     const { setCurrentLocationCountryInfo, preferredUnits } = useGlobalStore();
-
     const { data: currentWeatherData, isLoading: currentWeatherDataIsLoading, mutate, isValidating: currentWeatherDataIsValidating, error: currentWeatherError } = useGetCurrentWeather();
 
     useEffect(() => {

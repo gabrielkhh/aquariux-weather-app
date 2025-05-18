@@ -1,18 +1,14 @@
 import { useState } from 'react'
-import useSWR from 'swr';
-import { searchLocation } from '../services/weather';
-import type { SearchLocationResult, SearchResultWeatherData } from '../types/openWeatherMapTypes';
+import type { SearchResultWeatherData } from '../types/openWeatherMapTypes';
 import { useGlobalStore } from '../store/useStore';
-import { IconTrash } from '@tabler/icons-react';
 import SearchHistoryRow from '../components/search/SearchHistoryRow';
 import useSearchLocation from '../hooks/useSearchLocation';
-import WeatherIcon from '../components/WeatherIcon';
 import SearchResultRow from '../components/search/SearchResultRow';
 
 const Search = () => {
     const [searchInput, setSearchInput] = useState<string>("");
     const [searchTerm, setSearchTerm] = useState<string>("");
-    const { searchHistory, addToSearchHistory, removeFromSearchHistory, setCurrentLocation, setCurrentView, preferredUnits } = useGlobalStore();
+    const { searchHistory, addToSearchHistory, removeFromSearchHistory, setCurrentLocation, setCurrentView } = useGlobalStore();
     const { data: searchResults, isLoading: searchResultsIsLoading, error: searchResultsError } = useSearchLocation(searchTerm);
 
     const handleSearch = () => {
@@ -74,7 +70,7 @@ const Search = () => {
                         )
                     })
                 ) : (
-                    <span>You have no recent search history</span>
+                    <span className="font-medium text-neutral-400 text-center my-20">You have no recent search history</span>
                 )}
             </div>
         </div>

@@ -23,7 +23,7 @@ const SearchHistoryRow = (props: SearchHistoryRowProps) => {
 
             </div>
             <button
-                className="text-red-400 h-full hover:bg-neutral-300 rounded-lg p-2 flex items-center cursor-pointer"
+                className="text-red-400 h-full hover:bg-red-400 hover:text-white rounded-lg p-2 flex items-center cursor-pointer"
                 onClick={(e) => {
                     e.stopPropagation();
                     removeFromSearchHistory(historyItem.id)

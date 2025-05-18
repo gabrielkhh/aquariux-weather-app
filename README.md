@@ -2,6 +2,10 @@
 
 > 🚨 First, make sure that you have obtained the necessary API keys and loaded them into an ``.env`` file.
 > Refer to ``.env.example`` for all required variables
+```bash
+cp .env.example .env
+# Then fill in .env with the proper keys
+```
 
 Next, install all the dependencies:
 
@@ -27,4 +31,4 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 ## For production preview build
 Open [http://localhost:4173](http://localhost:4173) with your browser to see the result.
 
-> This web app is powered by React, TypeScript, TailwindCSS and Vite.
+> This web app is powered by React, TypeScript, TailwindCSS, Vite and Express.

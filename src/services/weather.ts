@@ -2,6 +2,7 @@ import axios from "axios";
 import type { CurrentWeatherData, FiveDayForecastResult, SearchLocationResult } from "../types/openWeatherMapTypes";
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
+import type { Units } from "../types/store";
 
 dayjs.extend(utc);
 
@@ -26,14 +27,14 @@ export const searchLocation = async (searchTerm: string) => {
     return undefined
 }
 
-export const getFiveDayForecast = async (lat: number, lon: number) => {
-    const currentWeatherResult = await getCurrentWeather(lat, lon)
+export const getFiveDayForecast = async (lat: number, lon: number, preferredUnits: Units) => {
+    const currentWeatherResult = await getCurrentWeather(lat, lon, preferredUnits)
     let timezoneOffsetInMinutes = 0;
     if (currentWeatherResult) {
         timezoneOffsetInMinutes = currentWeatherResult.timezone / 60;
     }
 
-    const result = await axios.get<FiveDayForecastResult>(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`)
+    const result = await axios.get<FiveDayForecastResult>(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=${preferredUnits}`)
     if (result.status === 200) {
         if (result.data.list.length > 0) {
             // Group the forecast by day
@@ -63,8 +64,8 @@ export const getFiveDayForecast = async (lat: number, lon: number) => {
     return undefined
 }
 
-export const getCurrentWeather = async (lat: number, lon: number) => {
-    const result = await axios.get<CurrentWeatherData>(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=metric`)
+export const getCurrentWeather = async (lat: number, lon: number, preferredUnits: Units) => {
+    const result = await axios.get<CurrentWeatherData>(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=5796abbde9106b7da4febfae8c44c232&units=${preferredUnits}`)
     if (result.status === 200) {
         return result.data
     }

@@ -7,15 +7,14 @@ import WeatherSummary from '../components/WeatherSummary';
 import WeatherIcon from '../components/WeatherIcon';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import useGetFiveDayForecast from '../hooks/useGetFiveDayForecast';
 
 dayjs.extend(utc);
 
 const Home = () => {
     const { currentLocation, setCurrentLocationCoordinates, autoLocateIsSet, setAutoLocateIsSet } = useGlobalStore();
 
-    const { data: forecast, isLoading: forecastIsLoading, error: forecastError } = useSWR<FiveDayForecastProcessedResult | undefined>(currentLocation ? `openweathermap/forecast/${currentLocation.lat}/${currentLocation.lon}` : null, async () => {
-        return await getFiveDayForecast(currentLocation.lat, currentLocation.lon)
-    })
+    const { data: forecast, isLoading: forecastIsLoading, error: forecastError } = useGetFiveDayForecast();
 
     useEffect(() => {
         if (!navigator.geolocation) {
@@ -42,11 +41,11 @@ const Home = () => {
     }, [autoLocateIsSet]);
 
     return (
-        <div className="flex flex-col md:flex-row w-full min-h-screen h-full gap-3">
+        <div className="flex flex-col md:flex-row w-full min-h-screen gap-3">
             <WeatherSummary />
 
             <div className="flex flex-col gap-3 flex-1">
-                <span className="font-semibold text-lg">5-day Forecast (3 Hours)</span>
+                <span className="font-semibold text-lg">5-day Forecast (3 Hourly)</span>
                 <div className="flex flex-col gap-2 bg-white/10 p-2 md:p-3">
                     {forecast?.grouped && Object.entries(forecast?.grouped).map(([date, forecastData]) => (
                         <>

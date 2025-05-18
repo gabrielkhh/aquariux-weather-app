@@ -17,23 +17,23 @@ const Navbar = () => {
                 <div className="flex items-center gap-3">
                     <button onClick={() => setCurrentView("search")} className="flex items-center gap-1 hover:bg-neutral-300 dark:hover:bg-white/10 duration-150 transition-colors p-2 rounded-lg cursor-pointer">
                         <IconSearch />
-                        Search
+                        <span className="hidden md:block">Search</span>
                     </button>
 
-                    <div className="bg-gray-200 border border-gray-300 rounded-lg p-1 text-sm font-medium relative hidden sm:inline-flex">
+                    <div className="bg-gray-200 border border-gray-300 rounded-lg p-1 text-sm font-medium relative inline-flex">
                         <button
                             id="metricBtn"
-                            className={`px-3 py-1 rounded-lg transition-colors duration-200 ${preferredUnits === "metric" ? ("bg-white text-gray-900 shadow") : ("text-gray-600")}`}
+                            className={`px-1 md:px-3 py-1 rounded-lg transition-colors duration-200 ${preferredUnits === "metric" ? ("bg-white text-gray-900 shadow") : ("text-gray-600")}`}
                             onClick={() => setPreferredUnits("metric")}
                         >
-                            Metric: °C, m/s
+                            Metric
                         </button>
                         <button
                             id="imperialBtn"
-                            className={`px-3 py-1 rounded-lg transition-colors duration-200 ${preferredUnits === "imperial" ? ("bg-white text-gray-900 shadow") : ("text-gray-600")}`}
+                            className={`px-1 md:px-3 py-1 rounded-lg transition-colors duration-200 ${preferredUnits === "imperial" ? ("bg-white text-gray-900 shadow") : ("text-gray-600")}`}
                             onClick={() => setPreferredUnits("imperial")}
                         >
-                            Imperial: °F, mph
+                            Imperial
                         </button>
                     </div>
                 </div>

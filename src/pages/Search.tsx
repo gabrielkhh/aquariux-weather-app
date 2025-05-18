@@ -7,6 +7,7 @@ import { IconTrash } from '@tabler/icons-react';
 import SearchHistoryRow from '../components/search/SearchHistoryRow';
 import useSearchLocation from '../hooks/useSearchLocation';
 import WeatherIcon from '../components/WeatherIcon';
+import SearchResultRow from '../components/search/SearchResultRow';
 
 const Search = () => {
     const [searchInput, setSearchInput] = useState<string>("");
@@ -58,24 +59,9 @@ const Search = () => {
                 )}
             </div>
             <div className="mt-1">
-                {searchResults && searchResults.list.length > 0 && searchResults.list.map((result, index) => {
-                    return (
-                        <div
-                            className="flex items-center justify-between hover:bg-neutral-300 cursor-pointer rounded-lg px-2 py-1"
-                            onClick={(e) => handleSearchResultClick(result)}
-                            key={index}
-                        >
-                            <div className="flex flex-col">
-                                <span className="text-lg font-semibold">{result.name}, {result.sys.country}</span>
-                                <span className="text-xs">{result.coord.lat} {result.coord.lon}</span>
-                            </div>
-                            <div className="flex items-center">
-                                <span className="text-sm font-medium text-neutral-500">{result.main.temp}{preferredUnits === "metric" ? "°C" : "°F"}</span>
-                                <WeatherIcon icon={result.weather[0].icon} />
-                            </div>
-                        </div>
-                    )
-                })}
+                {searchResults && searchResults.list.length > 0 && searchResults.list.map((result, index) => (
+                    <SearchResultRow key={index} result={result} handleSearchResultClick={handleSearchResultClick} />
+                ))}
             </div>
 
             <div className="flex flex-col gap-1 mt-3">
